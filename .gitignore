@@ -1,13 +1,3 @@
-add_robot/add_ws/*
-add_robot/*
-add_robot/add_ws/src/*/
-add_robot/add_ws/src/CMakeLists.txt
-add_robot/*/*.git
-!add_robot/add_ws/src
-slam_ws/
-
-# catkin_ws/*
-# colcon_ws/*
 colcon_ws/src/*/
 catkin_ws/src/*/
 catkin_ws/src/CMakeLists.txt
