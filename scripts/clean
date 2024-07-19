@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+echo "Cleaning dangling images..."
+docker container prune
+echo "Done."
+
+echo "Removing stopped containers..."
+docker image prune
+echo "Done."

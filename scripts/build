@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+DOCKER_IMG="custom-noetic-image"
+PROJECT_ROOT="$(cd "$(dirname "$0")"; cd ..; pwd)"
+
+echo "----- Building Docker image from ${PROJECT_ROOT}/Dockerfile "
+docker build -t ${DOCKER_IMG} ${PROJECT_ROOT}
+
+echo "----- Building ROS workspace "
+${PROJECT_ROOT}/scripts/run sh -c "cd /home/catkin_ws/ && catkin_make"
