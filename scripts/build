@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-DOCKER_IMG="custom-noetic-image"
+DOCKER_IMG="ros-noetic-image"
 PROJECT_ROOT="$(cd "$(dirname "$0")"; cd ..; pwd)"
 
 echo "----- Building Docker image from ${PROJECT_ROOT}/Dockerfile "

@@ -4,7 +4,7 @@ set -e
 xhost +local:root
 
 DOCKER_NAME="humble-container"
-DOCKER_IMG="custom-humble-image:latest"
+DOCKER_IMG="ros2-humble-image:latest"
 
 XAUTH=/tmp/.docker.xauth
 PROJECT_ROOT="$(cd "$(dirname "$0")"; cd ..; pwd)"

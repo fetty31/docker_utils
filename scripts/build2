@@ -1,11 +1,11 @@
 #!/bin/bash
 set -e
 
-DOCKER_IMG="custom-humble-image"
+DOCKER_IMG="ros2-humble-image"
 PROJECT_ROOT="$(cd "$(dirname "$0")"; cd ..; pwd)"
 
 echo "----- Building Docker image from ${PROJECT_ROOT}/Dockerfile "
 docker build -t ${DOCKER_IMG} ${PROJECT_ROOT}
 
 echo "----- Building ROS workspace "
-# ${PROJECT_ROOT}/scripts/run2 sh -c "cd /home/colcon_ws/ && colcon build --symlink-install"
+${PROJECT_ROOT}/scripts/run2 sh -c "cd /home/colcon_ws/ && colcon build --symlink-install"
