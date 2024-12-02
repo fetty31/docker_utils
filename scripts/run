@@ -6,24 +6,31 @@ xhost +local:root
 DOCKER_NAME="noetic-container"
 DOCKER_IMG="ros-noetic-image"
 
+if [[ $# -eq 0 ]] ; then
+  echo "WARNING: No arguments provided, container ${DOCKER_NAME} from image ${DOCKER_IMG} will be started"
+else 
+  DOCKER_NAME=$1
+  DOCKER_IMG=$2
+fi
+
 XAUTH=/tmp/.docker.xauth
 PROJECT_ROOT="$(cd "$(dirname "$0")"; cd ..; pwd)"
 
-if docker ps -l | grep -q ${DOCKER_NAME}; then
+if docker ps -a | grep -q ${DOCKER_NAME}; then
   echo "WARNING: A container named ${DOCKER_NAME} was already created; it will be removed"
-  docker rm ${DOCKER_NAME} &> /dev/null
+  docker start -i ${DOCKER_NAME}
+else
+  docker run -it \
+    --name ${DOCKER_NAME} \
+    --env="DISPLAY=$DISPLAY" \
+    --env="QT_X11_NO_MITSHM=1" \
+    --volume="${PROJECT_ROOT}/catkin_ws:/home/catkin_ws" \
+    --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    --env="XAUTHORITY=$XAUTH" \
+    --net=host \
+    --privileged \
+    ${DOCKER_IMG}
 fi
-
-docker run -it --rm \
-  --name ${DOCKER_NAME} \
-  --env="DISPLAY=$DISPLAY" \
-  --env="QT_X11_NO_MITSHM=1" \
-  --volume="${PROJECT_ROOT}/catkin_ws:/home/catkin_ws" \
-  --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-  --env="XAUTHORITY=$XAUTH" \
-  --net=host \
-  --privileged \
-  ${DOCKER_IMG} "$@"
 
 xhost -local:root
 echo "Goodbye :)"

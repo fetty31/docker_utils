@@ -1,0 +1,20 @@
+#!/bin/bash
+set -e
+
+xhost +local:root
+
+DOCKER_NAME="noetic-container"
+PROJECT_ROOT="$(cd "$(dirname "$0")"; cd ..; pwd)"
+
+if [[ $# -gt 0 ]] ; then
+  DOCKER_NAME=$1
+fi
+
+if docker ps -a | grep -q ${DOCKER_NAME}; then
+  docker start -i ${DOCKER_NAME}
+else
+  echo "ERROR: No container named ${DOCKER_NAME} is present. Please run scripts/run bash script in order to deploy the container for the first time"
+fi
+
+xhost -local:root
+echo "Goodbye :)"
