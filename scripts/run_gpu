@@ -5,7 +5,10 @@ DOCKER_IMG="ros-noetic-image"
 
 if [[ $# -eq 0 ]] ; then
   echo "WARNING: No arguments provided, container ${DOCKER_NAME} from image ${DOCKER_IMG} will be started"
-else 
+elif [[ $# -eq 1 ]] ; then
+  echo "WARNING: Only one argument provided, container $1 from image ${DOCKER_IMG} will be started"
+  DOCKER_NAME=$1
+else
   DOCKER_NAME=$1
   DOCKER_IMG=$2
 fi
@@ -63,7 +66,6 @@ else
   xhost +
 
   $DOCKER_COMMAND \
-  --runtime=nvidia \
   $DOCKER_USER_ARGS \
   $DOCKER_GPU_ARGS \
   $DOCKER_SSH_AUTH_ARGS \
@@ -76,13 +78,3 @@ else
 
   xhost -
 fi
-
-# -v "$HOME/exchange:/home/user/exchange" \
-# -v /var/run/docker.sock:/var/run/docker.sock \
-
-# --name ${DOCKER_NAME} \
-# --privileged \
-# --volume="${PROJECT_ROOT}/add_robot:/add_robot" \
-# --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-# --volume="/var/run/docker.sock:/var/run/docker.sock" \
-# ${DOCKER_IMG} 

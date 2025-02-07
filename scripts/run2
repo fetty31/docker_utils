@@ -8,7 +8,10 @@ DOCKER_IMG="ros2-humble-image:latest"
 
 if [[ $# -eq 0 ]] ; then
   echo "WARNING: No arguments provided, container ${DOCKER_NAME} from image ${DOCKER_IMG} will be started"
-else 
+elif [[ $# -eq 1 ]] ; then
+  echo "WARNING: Only one argument provided, container $1 from image ${DOCKER_IMG} will be started"
+  DOCKER_NAME=$1
+else
   DOCKER_NAME=$1
   DOCKER_IMG=$2
 fi
