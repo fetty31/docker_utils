@@ -23,7 +23,6 @@ PROJECT_ROOT="$(cd "$(dirname "$0")"; cd ..; pwd)"
 # Allow customization for docker args
 # For instance, to remove the container when it exits: DOCKER_USER_ARGS='--rm' pal_docker.sh ...
 DOCKER_USER_ARGS="$DOCKER_USER_ARGS --env LOCAL_USER_ID --env LOCAL_GROUP_ID --env LOCAL_GROUP_NAME -it"
-# DOCKER_USER_ARGS="-it"
 
 # Variables for forwarding ssh agent into docker container
 SSH_AUTH_ARGS=""
@@ -36,8 +35,10 @@ DOCKER_GPU_ARGS="--env DISPLAY=$DISPLAY --env QT_X11_NO_MITSHM=1 --volume=/tmp/.
 
 dpkg -l | grep nvidia-container-toolkit &> /dev/null
 HAS_NVIDIA_TOOLKIT=$?
-which nvidia-docker > /dev/null
+
+type nvidia-docker &> /dev/null
 HAS_NVIDIA_DOCKER=$?
+
 if [ $HAS_NVIDIA_TOOLKIT -eq 0 ]; then
   docker_version=`docker version --format '{{.Client.Version}}' | cut -d. -f1`
   if [ $docker_version -ge 19 ]; then
@@ -63,7 +64,7 @@ if docker ps -a | grep -q ${DOCKER_NAME}; then
   docker start -i ${DOCKER_NAME}
 else
 
-  xhost +
+  xhost +local:root
 
   $DOCKER_COMMAND \
   $DOCKER_USER_ARGS \
@@ -71,10 +72,10 @@ else
   $DOCKER_SSH_AUTH_ARGS \
   $DOCKER_NETWORK_ARGS \
   --privileged \
-  --device=/dev/dri:/dev/dri \
   --name ${DOCKER_NAME} \
+  --env="XAUTHORITY=$XAUTH" \
   --volume="${PROJECT_ROOT}/catkin_ws:/home/catkin_ws" \
   ${DOCKER_IMG} 
 
-  xhost -
+  xhost -local:root
 fi
