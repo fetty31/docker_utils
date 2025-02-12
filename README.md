@@ -1,5 +1,5 @@
 # Docker utils
-Within this project you can find useful scripts in order to quickly build & run ROS _docker containers_ while mounting a ROS workspace ([catkin_ws](workspaces/catkin_ws/) or [colcon_ws](workspaces/colcon_ws/)) as an external volume and enabling GUI applications (X server).
+Within this project you can find useful scripts in order to quickly build & run ROS _docker containers_ while mounting a ROS workspace ([catkin_ws](workspaces/catkin_ws/) or [colcon_ws](workspaces/colcon_ws/)) as an external volume, enabling GUI applications (X server) and GPU access.
 
 Note that _Dockerfiles_ are also given in order to build _docker images_ on top of ROS/ROS2 desktop. 
 
@@ -22,4 +22,4 @@ _NOTE: with the standard docker config, the GUI applications will only work when
 
 Other useful bash scripts:
 - `clean` : cleans dangling _images_ and stopped _containers_
-- `run_extra` : same as `run` script but is meant to run other self-build _docker images_ (not the one built using the `build` script). _E.g. starting a _docker container_ from an _image_ which has all the current workspace dependencies already installed._
+- `run_gpu/run2_gpu` : same as `run` script but with GPU access from the docker container.
