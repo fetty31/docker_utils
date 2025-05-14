@@ -1,5 +1,7 @@
 #!/bin/bash
 
+xhost +local:root
+
 DOCKER_NAME="noetic-container"
 DOCKER_IMG="ros-noetic-image"
 

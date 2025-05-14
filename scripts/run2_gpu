@@ -1,5 +1,7 @@
 #!/bin/bash
 
+xhost +local:root
+
 DOCKER_NAME="humble-container"
 DOCKER_IMG="ros2-humble-image:latest"
 
